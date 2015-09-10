@@ -5,13 +5,9 @@
 	<title>Bifurcation Plot </title>
 
 	<style>
-		svg {
+/*		svg {
 			border: 1px solid #f0f;
-		}
-
-		rect:hover {
-			fill: #571A82;
-		}
+		}*/
 
 		.tick-minor {
 			display: none;
@@ -35,6 +31,40 @@
 			stroke: #ccc;
 		}
 
+		.tenHenry {
+			fill: blue;
+		}
+
+		.twelveHenry {
+			fill: red;
+		}
+
+		.fourteenHenry {
+			fill: green;
+		}
+
+		.sixteenHenry {
+			fill: purple;
+		}
+
+		.line {
+			fill: none;
+			stroke-width: 1px;
+			stroke: #AAA;
+		}
+
+		.legend {
+            padding: 5px;
+            font: 14px sans-serif;
+            box-shadow: 2px 2px 1px #888;
+        }
+
+        .chartTitle {
+        	position: absolute;
+        	left: 350px;
+        	font: 30px sans-serif;
+        }
+
 	</style>
 </head>
 
@@ -42,4 +72,4 @@
 
 </body>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-<script type="text/javascript" src="circuitScript.js"></script>
+<script type="text/javascript" src="optimizationScript.js"></script>

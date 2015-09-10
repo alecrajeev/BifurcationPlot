@@ -64,7 +64,7 @@ function getrfromindex(i) {
 	return (r + (i/10.0));
 }
 
-start2(calcR());
+// start2(calcR());
 
 function start2(data) {
 
@@ -113,7 +113,6 @@ function start2(data) {
 		.text(function(d) {return d;	});
 
 }
-
 
 function start(data) {
 
