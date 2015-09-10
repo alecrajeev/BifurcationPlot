@@ -1,4 +1,4 @@
-var margin = {top: 20, right: 10, bottom: 20, left: 40};
+var margin = {top: 20, right: 10, bottom: 50, left: 80};
 var width = 960 - margin.left - margin.right,
 	height = 500 - margin.top - margin.bottom;
 
@@ -33,13 +33,16 @@ var line = d3.svg.line()
 
 var X = [];
 
-var r = 2.8;
+var finalArray = [];
+
+var r = 2.0;
+
+var rNumber = 200;
 
 
 function calcR() {
 
-	for (j = 0; j < 10; j++) {
-		// console.log(2 + j/10.0);
+	for (j = 0; j < rNumber; j++) {
 		X[j] = fCalc(getrfromindex(j));
 	}
 
@@ -61,10 +64,67 @@ function fCalc(r) {
 }
 
 function getrfromindex(i) {
-	return (r + (i/10.0));
+	return (r + (i/100));
 }
 
 // start2(calcR());
+
+start3(calcR());
+
+function start3(data) {
+
+	var svg = d3.select("body").append("svg") // data join
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+  		.append("g")
+  		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	xScale.domain([2.0,4.0]);
+	yScale.domain([0.0, 1.0]);
+
+	var data2 = [];
+
+	for (i = 0; i < rNumber; i++) {
+		for (j = 0; j < 190; j++)
+			data2.push([i, data[i][800+j]])
+	}
+
+	var circle = svg.selectAll("circle")
+		.data(data2)
+		.enter()
+		.append("circle")
+		.attr("class", "circle")
+		.attr("transform", function(d) {return "translate(" + xScale(d[0]/(.5*rNumber) + 2.0) + "," + yScale(d[1]) + ")"; })
+		.attr("r", 2)
+
+	svg.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + (height) + ")")
+		.call(xAxis)
+		.selectAll("g")
+		.selectAll("text")
+		.text(function(d) {return d;	});
+
+	svg.append("g")
+		.attr("class", "y axis")
+		.attr("transform", "translate(0,0)")
+		.call(yAxis)
+		.selectAll("g")
+		.selectAll("text")
+		.text(function(d) {return d;	});
+
+	svg.append("g")
+		.attr("class", "alabel")
+		.attr("transform", "translate(" + (width/2 - 80) + "," + (height + 40) + ")")
+		.append("text")
+		.text("r (scalable constant)");
+
+	svg.append("g")
+		.attr("class", "alabel")
+		.attr("transform", "translate(" + "-50" + "," + (height/2) + ")")
+		.append("text")
+		.text("x");
+}
 
 function start2(data) {
 
@@ -85,7 +145,7 @@ function start2(data) {
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	xScale.domain([0, data[0].length - 1]);
-	yScale.domain([0, .8]);
+	yScale.domain([0, 1.0]);
 
 
 	var circle = svg.selectAll("circle")
@@ -117,6 +177,13 @@ function start2(data) {
 function start(data) {
 
 	// console.log(data);
+
+
+	// var svg = d3.select("body").append("svg") // data join
+	// 	.attr("width", width + margin.left + margin.right)
+	// 	.attr("height", height + margin.top + margin.bottom)
+ //  		.append("g")
+ //  		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	xScale.domain([0, data.length - 1]);
 	yScale.domain(d3.extent(data));
