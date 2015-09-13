@@ -25,18 +25,7 @@ def buildR():
 	for i in xrange(1, n_steps):
 		full_data_array[i] = (r_array*full_data_array[i-1])*(one_array - full_data_array[i-1])
 
-	getSpecialString(r_array)
-
-	np.savetxt("output.csv", full_data_array, delimiter=',', header="2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9", newline="\n")
-	# print data_array
-
-def getSpecialString(arr):
-	final_string = str(arr[0])
-
-	for i in xrange(1, np.size(arr)):
-		final_string += ", " + str(arr[i])
-
-	print final_string
+	np.savetxt("output.csv", full_data_array, delimiter=',', header=str(r_array.tolist()), comments="")
 
 def calculateDataForSingleR(r):
 	start = .5
