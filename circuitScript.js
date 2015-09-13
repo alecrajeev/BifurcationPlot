@@ -67,10 +67,6 @@ function getrfromindex(i) {
 	return (r + (i/100));
 }
 
-// start2(calcR());
-
-start3(calcR());
-
 function start3(data) {
 
 	var svg = d3.select("body").append("svg") // data join
@@ -174,27 +170,55 @@ function start2(data) {
 
 }
 
-function start(data) {
+d3.json("bifurcateData.json", start);
+
+function start(err, data) {
+
+	if (err)
+		console.error(err)
+
+	console.log(data)
 
 	// console.log(data);
 
+	var svg = d3.select("body").append("svg") // data join
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+  		.append("g")
+  		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	// var svg = d3.select("body").append("svg") // data join
-	// 	.attr("width", width + margin.left + margin.right)
-	// 	.attr("height", height + margin.top + margin.bottom)
- //  		.append("g")
- //  		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  	// console.log(data[0]);
 
-	xScale.domain([0, data.length - 1]);
-	yScale.domain(d3.extent(data));
-	// yScale.domain([0, 1]);
+  	data.forEach(function (d) { // will eventually do this in node
+  		// console.log(d);
+  		d.array_data = [];
+  		var i = 0;
+  		for (var prop in d) {
+  			if (i++ < 20) { // prevents the array from being added to array. since d.array_data is last property
+  				d.array_data.push(d[prop])
+  			}
+  		}
+  	})
+
+  	// this needs to be done in node as well
+  	r_array = []; // array with every r value
+  	for (var prop in data[110]) {
+  		r_array.push(+prop);
+  		console.log(+prop)
+  		console.log(data[110][prop]);
+  	}
+
+	xScale.domain(d3.extent(r_array));
+	yScale.domain([0, 1]);
 
 	var circle = svg.selectAll("circle")
 		.data(data)
 		.enter()
 		.append("circle")
 		.attr("class", "circle")
-		.attr("transform", function(d, i) {return "translate(" + xScale(i) + "," + yScale(d) + ")"; })
+		.attr("transform", function (d) {
+			return "translate(" + xScale(2.0) + "," + yScale(d.array_data[0]) + ")";
+		})
 		.attr("r", 5)
 
 	svg.append("g")

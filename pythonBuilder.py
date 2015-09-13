@@ -25,7 +25,7 @@ def buildR():
 	for i in xrange(1, n_steps):
 		full_data_array[i] = (r_array*full_data_array[i-1])*(one_array - full_data_array[i-1])
 
-	np.savetxt("output.csv", full_data_array, delimiter=',', header=str(r_array.tolist()), comments="")
+	np.savetxt("output.csv", full_data_array, delimiter=',', header=str(r_array.tolist())[1:-1], comments="")
 
 def calculateDataForSingleR(r):
 	start = .5
