@@ -31,47 +31,55 @@ var line = d3.svg.line()
 	.x(function(d) {return xScale(d);	})
 	.y(function(d) {return yScale(d);	});
 
-d3.json("bifurcateData.json", start);
 
-function start(err, data) {
+queue()
+	.defer(d3.json, "bifurcateDataProcessed.json")
+	.defer(d3.json, "r_array.json")
+	.await(start);
+
+function start(err, bdata, rdata) {
 
 	if (err)
 		console.error(err)
 
   	// this needs to be done in node as well
-  	r_array = []; // array with every r value
-  	for (var prop in data[110]) {
-  		r_array.push(+prop);
-  		console.log(prop);
-  	}
+  	// r_array = []; // array with every r value
+  	// for (var prop in data[110]) {
+  	// 	r_array.push(+prop);
+  	// }
 
-  	data.forEach(function (d) { // will eventually do this in node
-  		d.array_data = [];
-  		var i = 0;
-  		for (var prop in d) {
-  			if (i++ < 20) { // prevents the array from being added to array. since d.array_data is last property
-  				d.array_data.push(d[prop])
-  			}
-  		}
-  	})
+  	// console.log(data);
+
+  	// data.forEach(function (d) { // will eventually do this in node
+  	// 	d.array_data = [];
+  	// 	var i = 0;
+  	// 	for (var prop in d) {
+  	// 		if (i++ < 20) { // prevents the array from being added to array. since d.array_data is last property
+  	// 			d.array_data.push(d[prop])
+  	// 		}
+  	// 	}
+  	// })
+
+	console.log(bdata);
+	
+	var r_array = rdata.first;
 
 	xScale.domain(d3.extent(r_array));
 	yScale.domain([0, 1]);
 
 	var circle = svg.selectAll("circle")
-		.data(data)
+		.data(bdata)
 		.enter()
 		.append("circle")
 		.attr("class", "circle")
 		.attr("transform", function (d) {
-			n = 0;
-			console.log(r_array[n]);
-			return "translate(" + xScale(r_array[n]) + "," + yScale(d.array_data[n]) + ")";
+			n = 1;
+			return "translate(" + xScale(r_array[n]) + "," + yScale(d.data_array[n]) + ")";
 		})
-		.attr("r", 5)
+		.attr("r", 3)
 
 
-	// idea is to add the other 18 data points using d3's update ability
+	// // idea is to add the other 18 data points using d3's update ability
 
 	svg.append("g")
 		.attr("class", "x axis")
