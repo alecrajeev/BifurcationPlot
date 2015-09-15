@@ -2,7 +2,7 @@ var margin = {top: 20, right: 10, bottom: 50, left: 80};
 var width = 960 - margin.left - margin.right,
 	height = 500 - margin.top - margin.bottom;
 
-var svg = d3.select("body").append("svg") // data join
+var svg = d3.select(".graph").append("svg")
 	.attr("width", width + margin.left + margin.right)
 	.attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -42,42 +42,46 @@ function start(err, bdata, rdata) {
 	if (err)
 		console.error(err)
 
-  	// this needs to be done in node as well
-  	// r_array = []; // array with every r value
-  	// for (var prop in data[110]) {
-  	// 	r_array.push(+prop);
-  	// }
-
-  	// console.log(data);
-
-  	// data.forEach(function (d) { // will eventually do this in node
-  	// 	d.array_data = [];
-  	// 	var i = 0;
-  	// 	for (var prop in d) {
-  	// 		if (i++ < 20) { // prevents the array from being added to array. since d.array_data is last property
-  	// 			d.array_data.push(d[prop])
-  	// 		}
-  	// 	}
-  	// })
-
-	console.log(bdata);
+	// console.log(bdata);
 	
 	var r_array = rdata.first;
 
 	xScale.domain(d3.extent(r_array));
 	yScale.domain([0, 1]);
 
-	var circle = svg.selectAll("circle")
+	// var circle = svg.selectAll("circle")
+	// 	.data(bdata)
+	// 	.enter()
+	// 	.append("circle")
+	// 	.attr("class", "circle")
+	// 	.attr("transform", function (d) {
+	// 		n = 3;
+	// 		return "translate(" + xScale(r_array[n]) + "," + yScale(d.data_array[n]) + ")";
+	// 	})
+	// 	.attr("r", 3)
+
+	var graph = svg.selectAll(".graph")
 		.data(bdata)
 		.enter()
-		.append("circle")
-		.attr("class", "circle")
-		.attr("transform", function (d) {
-			n = 1;
-			return "translate(" + xScale(r_array[n]) + "," + yScale(d.data_array[n]) + ")";
-		})
-		.attr("r", 3)
+		.append("g")
 
+
+	var gCircle = graph.selectAll("gCircle")
+		.data(function (d) {
+			return d.data_array;
+		})
+		.enter()
+		.append("circle")
+		.attr("class", function (d, i) {
+			// console.log([i % r_array.length, d]);
+			return "circle";
+		})
+		.attr("transform", function (d, i) {
+			var r = i % r_array.length;
+
+			return "translate(" + xScale(r_array[r]) + ", " + yScale(d) + ")";
+		})
+		.attr("r", 3);
 
 	// // idea is to add the other 18 data points using d3's update ability
 
