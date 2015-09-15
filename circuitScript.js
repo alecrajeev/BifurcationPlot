@@ -72,18 +72,11 @@ function start(err, bdata, rdata) {
 		})
 		.enter()
 		.append("circle")
-		.attr("class", function (d, i) {
-			// console.log([i % r_array.length, d]);
-			return "circle";
-		})
-		.attr("transform", function (d, i) {
-			var r = i % r_array.length;
-
-			return "translate(" + xScale(r_array[r]) + ", " + yScale(d) + ")";
+		.attr("class", "circle")
+		.attr("transform", function (d) {
+			return "translate(" + xScale(r_array[d.i]) + ", " + yScale(d.x) + ")";
 		})
 		.attr("r", 3);
-
-	// // idea is to add the other 18 data points using d3's update ability
 
 	svg.append("g")
 		.attr("class", "x axis")

@@ -24,12 +24,15 @@ fs.readFile("bifurcateData.json", "utf-8", function (err, bifurcateData) {
 
 			var i = 0;
 			for (var prop in d) {
-				if (i++ < (r_array.length)) {
-					d.data_array.push(+d[prop]);
+				if (i < (r_array.length)) {
+					d.data_array.push({"i": i, "x": +d[prop]});
 					delete d[prop];
 				}
+				i++
 			}
 		});
+
+		console.log(bdata[0].data_array);
 
 		var R_array_object = {};
 		R_array_object.first = r_array;
