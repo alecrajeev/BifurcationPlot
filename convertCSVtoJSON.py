@@ -1,8 +1,8 @@
 import csv
 import json
 
-csvfile = open("output.csv", "r")
-jsonfile = open("bifurcateData.json", "w")
+csvfile = open("/Users/arajeev/Documents/buildData/output9.csv", "r")
+jsonfile = open("/Users/arajeev/Documents/buildData/bifurcateDataFull.json", "w")
 
 reader = csv.DictReader(csvfile)
 out = json.dumps( [ row for row in reader ], indent=4 )
