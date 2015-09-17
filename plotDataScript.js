@@ -2,11 +2,11 @@ var margin = {top: 50, right: 10, bottom: 60, left: 80};
 var width = 960 - margin.left - margin.right,
 	height = 500 - margin.top - margin.bottom;
 
-var svg = d3.select("body").append("svg") // data join
-	.attr("width", width + margin.left + margin.right)
-	.attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+// var svg = d3.select("body").append("svg") // data join
+// 	.attr("width", width + margin.left + margin.right)
+// 	.attr("height", height + margin.top + margin.bottom)
+//   .append("g")
+//   	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var xScale = d3.scale.linear()
 	.range([0, width]);
@@ -26,7 +26,34 @@ var yAxis = d3.svg.axis()
 	.tickSize(-width)
 	.tickPadding(8)
 
-d3.csv("beforeBifurcate.csv", start);
+queue()
+	.defer(d3.csv, "./formattedData/9-3.csv")
+	.defer(d3.csv, "./formattedData/9-9.csv")
+	.await(makeMyChart);
+
+// d3.csv("./formattedData/9-9.csv", start);
+
+function makeMyChart(err, data0, data1) {
+
+
+	data0.forEach(function (d) {
+		d.Time = +d.Time;
+		d.Voltage = +d.Voltage;
+	})
+
+	data1.forEach(function (d) {
+		d.Time = +d.Time;
+		d.Voltage = +d.Voltage;
+	})
+
+	var divs = d3.selectAll("div")
+		.data(nestedData)
+		.enter()
+		.append("div")
+		.attr("class", function(d) {return "site-" + d.key});
+
+
+}
 
 function start(err, data) {
 
