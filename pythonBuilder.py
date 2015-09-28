@@ -1,12 +1,12 @@
 import numpy as np
-import csv
+import pyprind
 
 r_start = 2.0
 r_finish = 4.0
 r_step = .1
 
 n_thermal = 1000 # number of thermalization steps
-n_steps = 1000 # number of final steps
+n_steps = 100 # number of final steps
 
 def buildR():
 
@@ -22,17 +22,24 @@ def buildR():
 
 	thermalization_data_array[0] = one_array/2 # gives starting point for each as .5
 
-	for i in xrange(1, n_thermal):
+	for i in pyprind.prog_bar(xrange(1,n_thermal)):
 		thermalization_data_array[i] = (r_array*thermalization_data_array[i-1])*(one_array - thermalization_data_array[i-1])
 
 	final_data_array[0] = thermalization_data_array[n_thermal-1]
 
-	print final_data_array[0]
-
-	for i in xrange(1, n_steps):
+	# for i in xrange(1, n_steps):
+	for i in pyprind.prog_bar(xrange(1,n_steps)):
 		final_data_array[i] = (r_array*final_data_array[i-1])*(one_array - final_data_array[i-1])
 
-	np.savetxt("output.csv", final_data_array, delimiter=',', header=str(r_array.tolist())[1:-1], comments="")
+	# this builds the header list. I needed to convert it to a string for the csvTOjson converter to understand it
+	r_array_string = np.array([])
+	for i in xrange(0,r_array.size):
+		beforeDash = str(r_array[i])
+		beforeDash = beforeDash.replace(".","_")
+		beforeDash = beforeDash + "a"
+		r_array_string = np.append(r_array_string, beforeDash)
+
+	np.savetxt("output7.csv", final_data_array, delimiter=',', header=str(r_array_string.tolist())[1:-1], comments="")
 
 
 def main():
