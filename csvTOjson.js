@@ -3,23 +3,19 @@ var Converter = require("csvtojson").Converter,
 	assert    = require("assert");
 
 var csvConverter = new Converter({
-	constructResult: false,
+	constructResult: true,
 }); // The parameter false will turn off final result construction. It can avoid huge memory consumption while parsing. The trade off is final result will not be populated to end_parsed event. 
- 
-// var readStream=require("fs").createReadStream("output7.csv");
- 
-// var writeStream=require("fs").createWriteStream("output7_parsed.json");
- 
-// readStream.pipe(csvConverter).pipe(writeStream);
 
-var readStream = fs.createReadStream("output7.csv");
+var readStream = fs.createReadStream("output11b.csv");
 var result = {};
 var csvConverter = new Converter();
 //end_parsed will be emitted once parsing finished
 csvConverter.on("end_parsed", function () {
+	
 	// console.log(result);
 	// console.log(JSON.stringify(result, null, 3));
-	fs.writeFile("output7_parsed.json", JSON.stringify(result, null, 3), function (err) {
+	
+	fs.writeFile("output11b_parsed.json", JSON.stringify(result, null, 3), function (err) {
 		if (err)
 			console.error(err);
 		console.log("It's saved");

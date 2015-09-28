@@ -1,12 +1,12 @@
 import numpy as np
 import pyprind
 
-r_start = 2.0
-r_finish = 4.0
-r_step = .1
+r_start = 2.75
+r_finish = 2.75
+r_step = .0001
 
-n_thermal = 1000 # number of thermalization steps
-n_steps = 100 # number of final steps
+n_thermal = 10000 # number of thermalization steps
+n_steps = 1000 # number of final steps
 
 def buildR():
 
@@ -39,8 +39,9 @@ def buildR():
 		beforeDash = beforeDash + "a"
 		r_array_string = np.append(r_array_string, beforeDash)
 
-	np.savetxt("output7.csv", final_data_array, delimiter=',', header=str(r_array_string.tolist())[1:-1], comments="")
+	np.savetxt("output11b.csv", final_data_array, delimiter=',', header=str(r_array_string.tolist())[1:-1], comments="")
 
+	print "finished python"
 
 def main():
 	buildR()
