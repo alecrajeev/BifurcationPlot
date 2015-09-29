@@ -1,12 +1,18 @@
+// this will convert the csv data to a json file
+// file is named after its first r value
+
 var Converter = require("csvtojson").Converter,
 	fs 		  = require("fs"),
 	assert    = require("assert");
+
+var inputName = "output" + process.argv[2].replace(".", "_") + ".csv";
+var outputName = "bifurcate" + process.argv[2].replace(".", "_") + ".json";
 
 var csvConverter = new Converter({
 	constructResult: true,
 }); // The parameter false will turn off final result construction. It can avoid huge memory consumption while parsing. The trade off is final result will not be populated to end_parsed event. 
 
-var readStream = fs.createReadStream("output11b.csv");
+var readStream = fs.createReadStream(inputName);
 var result = {};
 var csvConverter = new Converter();
 //end_parsed will be emitted once parsing finished
@@ -15,10 +21,10 @@ csvConverter.on("end_parsed", function () {
 	// console.log(result);
 	// console.log(JSON.stringify(result, null, 3));
 	
-	fs.writeFile("output11b_parsed.json", JSON.stringify(result, null, 3), function (err) {
+	fs.writeFile(outputName, JSON.stringify(result, null, 3), function (err) {
 		if (err)
 			console.error(err);
-		console.log("It's saved");
+		console.log("finished node convert " + outputName);
 	});
 });
 
