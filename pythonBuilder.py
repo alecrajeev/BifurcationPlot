@@ -3,13 +3,13 @@ import sys
 
 r_start = 2.75
 r_finish = 2.75
-r_step = .0001
+r_step = .2#.0001
 
 r_start = float(sys.argv[1])
 r_finish = float(sys.argv[2])
 
 n_thermal = 10000 # number of thermalization steps
-n_steps = 2000 # number of final steps
+n_steps = 100 # number of final steps
 
 def buildR():
 
@@ -43,10 +43,12 @@ def buildR():
 		r_array_string = np.append(r_array_string, beforeDash)
 
 	# just the name of the output file. It will be named by it's first point
-	startName = str(r_start).replace(".", "_");
+	startName = str(r_start).replace(".", "_")
 	output_name = "theory_data/output" + startName + ".csv"
 
-	np.savetxt(output_name, final_data_array, delimiter=',', header=str(r_array_string.tolist())[1:-1], comments="")
+	Header = str(r_array_string.tolist())[1:-1]
+
+	np.savetxt(output_name, final_data_array, delimiter=',', header=Header, comments="")
 
 	print "finished python", output_name
 

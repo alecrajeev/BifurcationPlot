@@ -2,8 +2,7 @@
 // file is named after its first r value
 
 var Converter = require("csvtojson").Converter,
-	fs 		  = require("fs"),
-	assert    = require("assert");
+	fs 		  = require("fs");
 
 var inputName = "theory_data/output" + process.argv[2].replace(".", "_") + ".csv";
 var outputName = "theory_data/bifurcate" + process.argv[2].replace(".", "_") + ".json";
@@ -20,12 +19,14 @@ csvConverter.on("end_parsed", function () {
 	
 	// console.log(result);
 	// console.log(JSON.stringify(result, null, 3));
+
+	console.log(result);
 	
-	fs.writeFile(outputName, JSON.stringify(result, null, 3), function (err) {
-		if (err)
-			console.error(err);
-		console.log("finished node convert " + outputName);
-	});
+	// fs.writeFile(outputName, JSON.stringify(result, null, 3), function (err) {
+	// 	if (err)
+	// 		console.error(err);
+	// 	console.log("finished node convert " + outputName);
+	// });
 });
 
 //record_parsed will be emitted each time a row has been parsed. 

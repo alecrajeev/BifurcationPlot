@@ -2,9 +2,8 @@
 
 var fs = require("fs");
 
-var inputName = "theory_data/bifurcate" + process.argv[2].replace(".", "_") + ".json";
+var inputName = "theory_data/processedQuotes" + process.argv[2].replace(".", "_") + ".json";
 var outputName = "theory_data/processed" + process.argv[2].replace(".", "_") + ".json";
-
 
 fs.readFile(inputName, "utf-8", function (err, data) {
 	if (err)
@@ -25,10 +24,11 @@ fs.readFile(inputName, "utf-8", function (err, data) {
 		});
 	}
 
+	console.log(finalData);
 
-	fs.writeFile(outputName, JSON.stringify(finalData, null,2));
+	// fs.writeFile(outputName, JSON.stringify(finalData, null,2));
 
-	console.log("finished node processing " + outputName);
-	console.log("\n");
+	// console.log("finished node processing " + outputName);
+	// console.log("\n");
 
 });

@@ -110,7 +110,7 @@ function makeMyChart(err, data0, data1, data2, data3, data4, data5, data6, data7
 		return i;
 	}
 
-	drawCircles(3);
+	// drawCircles(3);
 
 	var c = 3;
 
@@ -119,8 +119,8 @@ function makeMyChart(err, data0, data1, data2, data3, data4, data5, data6, data7
 		drawCircles(c);
 	}
 
-	// for (i = 0; i < 8; i++)
-	// 	console.log(drawCircles(i));
+	for (i = 0; i < 8; i++)
+		console.log(drawCircles(i));
 
 	// drawCircles(0);
 
