@@ -20,11 +20,15 @@ fs.readFile(inputName, "utf-8", function (err, data) {
 		data[key].forEach(function (d) {
 			var keyNumber = +key.toString().slice(1,-2).replace("_",".");
 
-			finalData.push({x: keyNumber, y: d});
+			// finalData.push({x: keyNumber, y: d});
+			finalData.push([keyNumber,d]);
 		});
 	}
 
 
 	fs.writeFile(outputName, JSON.stringify(finalData, null,2));
+
+	console.log("finished node processing " + outputName);
+	console.log("\n");
 
 });

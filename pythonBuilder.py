@@ -3,13 +3,13 @@ import sys
 
 r_start = 2.75
 r_finish = 2.75
-r_step = .1 #.0001
+r_step = .0001
 
 r_start = float(sys.argv[1])
 r_finish = float(sys.argv[2])
 
 n_thermal = 10000 # number of thermalization steps
-n_steps = 100#2000 # number of final steps
+n_steps = 2000 # number of final steps
 
 def buildR():
 
@@ -48,7 +48,7 @@ def buildR():
 
 	np.savetxt(output_name, final_data_array, delimiter=',', header=str(r_array_string.tolist())[1:-1], comments="")
 
-	print "finished python ", output_name
+	print "finished python", output_name
 
 def main():
 	buildR()

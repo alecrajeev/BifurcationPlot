@@ -28,6 +28,8 @@ var yAxis = d3.svg.axis()
 
 var drawCircles = function(i) {}
 
+var next = function() {}
+
 queue()
 	.defer(d3.json, "theory_data/processed2_0.json")
 	.defer(d3.json, "theory_data/processed2_25.json")
@@ -51,64 +53,7 @@ function makeMyChart(err, data0, data1, data2, data3, data4, data5, data6, data7
 	var xCoordinatesNames = [];
 
 	var dataWrapper = [data0,data1,data2,data3,data4,data5,data6,data7];
-
-	drawCircles = function(i) {
-
-	var circleContent = svg.selectAll(".circleContent")
-		.data(dataWrapper[i]);
-
-	var circleEnter = circleContent.enter()
-		.append("g")
-		.attr("transform", function (d) {
-			return "translate(" + xScale(d.x) + "," + yScale(d.y) + ")";
-		});
 	
-	circleEnter.append("circle")
-		.attr("class", "circle")
-		.attr("r", "5");
-
-	var updateSelection = svg.selectAll(".circleContent")
-		.transition()
-		.duration(500)
-		.attr("transform", function (d) {
-			return "translate(" + xScale(d.x) + "," + yScale(d.y) + ")";
-		});
-
-	updateSelection.select("circle")
-		.attr("class", "circle")
-		.attr("r", "5");
-
-
-	}
-
-	for (i = 0; i < 8; i++)
-		drawCircles(i);
-
-	// var updateSelection = svg.selectAll(".circle")
-	// 	.transition()
-	// 	.duration(500)
-
-
-	// var dataCircle0 = svg.selectAll(".circle")
-	// 	.data(data0)
-	// 	.enter()
-	// 	.append("circle")
-	// 	.attr("class", "circle")
-	// 	.attr("transform", function (d) {
-	// 		return "translate(" + xScale(d.x) + "," + yScale(d.y) + ")"
-	// 	})
-	// 	.attr("r", "5");
-
-	// var dataCircle1 = svg.selectAll(".circle")
-	// 	.data(data1)
-	// 	.enter()
-	// 	.append("circle")
-	// 	.attr("class", "circle")
-	// 	.attr("transform", function (d) {
-	// 		return "translate(" + xScale(d.x) + "," + yScale(d.y) + ")"
-	// 	})
-	// 	.attr("r", "5");
-
 	svg.append("g")
 		.attr("class", "x axis")
 		.attr("transform", "translate(0," + (height) + ")")
@@ -129,7 +74,7 @@ function makeMyChart(err, data0, data1, data2, data3, data4, data5, data6, data7
 		.attr("class", "alabel")
 		.attr("transform", "translate(" + (width/2 - 80) + "," + (height + 40) + ")")
 		.append("text")
-		.text("r (scalable constant)");
+		.text("r");
 
 	svg.append("g")
 		.attr("class", "alabel")
@@ -137,5 +82,46 @@ function makeMyChart(err, data0, data1, data2, data3, data4, data5, data6, data7
 		.append("text")
 		.text("x");
 
+
+	drawCircles = function(i) {
+
+	var circleContent = svg.selectAll(".circleContent")
+		.data(dataWrapper[i]);
+
+	var circleEnter = circleContent.enter()
+		.append("g")
+		.attr("transform", function (d) {
+			return "translate(" + xScale(d[0]) + "," + yScale(d[1]) + ")";
+		});
+	
+	circleEnter.append("circle")
+		.attr("class", "circle")
+		.attr("r", ".5");
+
+	var updateSelection = svg.selectAll(".circleContent")
+		.attr("transform", function (d) {
+			return "translate(" + xScale(d[0]) + "," + yScale(d[1]) + ")";
+		});
+
+	updateSelection.select("circle")
+		.attr("class", "circle")
+		.attr("r", ".5");
+
+		return i;
+	}
+
+	drawCircles(3);
+
+	var c = 3;
+
+	next = function() {
+		c = (c+1) % 8;
+		drawCircles(c);
+	}
+
+	// for (i = 0; i < 8; i++)
+	// 	console.log(drawCircles(i));
+
+	// drawCircles(0);
 
 }
