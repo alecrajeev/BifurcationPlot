@@ -12,4 +12,15 @@ console.log("\n\n");
 for (r = r_start; r < r_finish; r += r_step) {
 	console.log("python pythonBuilder.py " + r + " " + (r + r_step));
 	console.log("node csvTOjson.js " + (r.toString().length < 2 ? r.toFixed(1) : r));
+
+	var shortenedFileName = (r.toString().length < 2 ? r.toFixed(1) : r).toString();
+
+	var fullFileName = "theory_data/output" + shortenedFileName.replace(".", "_") + ".csv";
+
+	console.log("rm " + fullFileName);
+
+	console.log("node processData.js " + (r.toString().length < 2 ? r.toFixed(1) : r));
+
+	console.log("rm " + "theory_data/bifurcate" + shortenedFileName.replace(".","_") + ".json");
+	console.log("\n");
 }

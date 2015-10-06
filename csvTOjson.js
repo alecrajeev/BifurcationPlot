@@ -5,8 +5,8 @@ var Converter = require("csvtojson").Converter,
 	fs 		  = require("fs"),
 	assert    = require("assert");
 
-var inputName = "output" + process.argv[2].replace(".", "_") + ".csv";
-var outputName = "bifurcate" + process.argv[2].replace(".", "_") + ".json";
+var inputName = "theory_data/output" + process.argv[2].replace(".", "_") + ".csv";
+var outputName = "theory_data/bifurcate" + process.argv[2].replace(".", "_") + ".json";
 
 var csvConverter = new Converter({
 	constructResult: true,
