@@ -1,15 +1,13 @@
 import numpy as np
 import sys
 
-r_start = 2.75
-r_finish = 2.75
-r_step = .2#.0001
-
 r_start = float(sys.argv[1])
 r_finish = float(sys.argv[2])
+r_step = .005#.0001
+
 
 n_thermal = 10000 # number of thermalization steps
-n_steps = 100 # number of final steps
+n_steps = 1000 # number of final steps
 
 def buildR():
 
