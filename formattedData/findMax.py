@@ -8,11 +8,12 @@ def findMax():
 
 	inputVoltage = name
 
+	# skip first row because it has headers
 	rawData = np.loadtxt(open(inputVoltage),delimiter=",", skiprows=1)
 
 	singleColumn = rawData[:, 2]
 
-	maximumArray = sc.argrelmax(singleColumn, axis=0,order=4, mode="clip")
+	maximumArray = sc.argrelmax(singleColumn, axis=0,order=2, mode="clip")
 
 	np.set_printoptions(formatter={'float': '{: 0.2f}'.format})
 
@@ -21,16 +22,21 @@ def findMax():
 	inputVoltage *= 2.0
 
 	# array of the final input 
-	final_array = np.zeros((np.size(maximumArray), 2))
+	# final_array = np.zeros((np.size(maximumArray), 2))
+	final_array = np.array([])
 
 	for i in xrange(0, np.size(maximumArray)):
-		final_array[i] = [inputVoltage, singleColumn[maximumArray[0][i]]]
+		if (singleColumn[maximumArray[0][i]] > .2):
+			# final_array[i] = [inputVoltage, singleColumn[maximumArray[0][i]]]
+			final_array = np.append(final_array,singleColumn[maximumArray[0][i]])
 
-	outputName = "../maximumData/" + str(inputVoltage) + ".csv"
+	print final_array
 
-	np.savetxt(outputName, final_array, delimiter=",", fmt="%.2f")
+	# outputName = "../maximumData/" + str(inputVoltage) + ".csv"
 
-	print "finished " + outputName
+	# np.savetxt(outputName, final_array, delimiter=",", fmt="%.2f")
+
+	# print "finished " + outputName
 
 def main():
 	findMax()
