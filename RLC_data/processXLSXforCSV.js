@@ -10,7 +10,7 @@ fs.readFile("list_data2.json", "utf-8", function(err, data) {
 	var data2 = JSON.parse(data);
 
 	data2.list.forEach(function (d) {
-		// console.log("\"" + d.slice(0,-4) + "csv\",");
-		console.log("python " + "xlsx2csv.py " + d + " > " + d.slice(0,-4) + "csv");
+			console.log("python " + "xlsxTOcsv.py " + d + " > " + d.slice(0,-4) + "csv");
+			console.log("echo converted" + d);
 	});
 })
