@@ -5,8 +5,6 @@ import sys
 def findMax():
 
 	name = sys.argv[1]
-	rawData = np.loadtxt(open(inputVoltage),delimiter=",", skiprows=1)
-"""
 	inputVoltage = name
 
 	# skip first row because it has headers
@@ -48,18 +46,17 @@ def findMax():
 
 	print "\n"
 
-	e = rawData[np.arange(peakRange[1,0], peakRange[1,1], dtype=np.int64)]
+	onePeakData = rawData[np.arange(peakRange[1,0], peakRange[1,1], dtype=np.int64)]
 
-"""
-	singleColumn = rawData[:, 2]
+	# print onePeakData[:, 2]
 
-	# print e[:, 2]
+	singleColumn = onePeakData[:, 2]
 
 	maximumArray = sc.argrelmax(singleColumn, axis=0,order=1, mode="clip")
 
 	np.set_printoptions(formatter={'float': '{: 0.2f}'.format})
 
-	p = np.polyfit(rawData[:,1], rawData[:, 2], 2, full=False)
+	p = np.polyfit(onePeakData[:,1], onePeakData[:, 2], 2, full=False)
 
 	x = (-p[1])/(2*p[0])
 
