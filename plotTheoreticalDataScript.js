@@ -31,14 +31,14 @@ var drawCircles = function(i) {}
 var next = function() {}
 
 queue()
-	.defer(d3.json, "https://github.com/alecrajeev/BifurcationPlot/blob/master/theory_data/processed2_0.json")
-	.defer(d3.json, "https://github.com/alecrajeev/BifurcationPlot/blob/master/theory_data/processed2_25.json")
-	.defer(d3.json, "https://github.com/alecrajeev/BifurcationPlot/blob/master/theory_data/processed2_5.json")
-	.defer(d3.json, "https://github.com/alecrajeev/BifurcationPlot/blob/master/theory_data/processed2_75.json")
-	.defer(d3.json, "https://github.com/alecrajeev/BifurcationPlot/blob/master/theory_data/processed3_0.json")
-	.defer(d3.json, "https://github.com/alecrajeev/BifurcationPlot/blob/master/theory_data/processed3_25.json")
-	.defer(d3.json, "https://github.com/alecrajeev/BifurcationPlot/blob/master/theory_data/processed3_5.json")
-	.defer(d3.json, "https://github.com/alecrajeev/BifurcationPlot/blob/master/theory_data/processed3_75.json")
+	.defer(d3.json, "theory_data/processed2_0.json")
+	.defer(d3.json, "theory_data/processed2_25.json")
+	.defer(d3.json, "theory_data/processed2_5.json")
+	.defer(d3.json, "theory_data/processed2_75.json")
+	.defer(d3.json, "theory_data/processed3_0.json")
+	.defer(d3.json, "theory_data/processed3_25.json")
+	.defer(d3.json, "theory_data/processed3_5.json")
+	.defer(d3.json, "theory_data/processed3_75.json")
 	.await(makeMyChart);
 
 function makeMyChart(err, data0, data1, data2, data3, data4, data5, data6, data7) {
