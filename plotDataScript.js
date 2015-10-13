@@ -27,7 +27,7 @@ var yAxis = d3.svg.axis()
 	.tickPadding(8)
 
 queue()
-	.defer(d3.csv, "./formattedData/6-75.csv")
+	.defer(d3.csv, "./formattedData/1-5.csv")
 	.await(start);
 
 // d3.csv("./formattedData/9-9.csv", start);
