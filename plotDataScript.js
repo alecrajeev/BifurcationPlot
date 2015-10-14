@@ -27,7 +27,7 @@ var yAxis = d3.svg.axis()
 	.tickPadding(8)
 
 queue()
-	.defer(d3.csv, "./formattedData/5.csv")
+	.defer(d3.json, "./maximumData2/full_data.json")
 	.await(start);
 
 // d3.csv("./formattedData/9-9.csv", start);
@@ -61,20 +61,27 @@ function start(err, data) {
 
 	console.log(data);
 
+	// data.forEach(function (d) {
+	// 	d.Time = +d.Time;
+	// 	d.Voltage = +d.Voltage;
+	// })
+
+	data = data.list
+
 	data.forEach(function (d) {
-		d.Time = +d.Time;
-		d.Voltage = +d.Voltage;
+		
+		console.log(d[0])
 	})
 
-	xScale.domain(d3.extent(data, function (d) {return d.Time;	}));
-	yScale.domain(d3.extent(data, function (d) {return d.Voltage;	}));
+	xScale.domain(d3.extent(data, function (d) {return +d[0];	}));
+	yScale.domain(d3.extent(data, function (d) {return +d[1];	}));
 
 	var dataCircle = svg.selectAll(".dataCircle")
 		.data(data)
 		.enter()
 		.append("circle")
 		.attr("class", "dataCircle")
-		.attr("transform", function(d) {return "translate(" + xScale(d.Time) + ", " + yScale(d.Voltage) + ")"})
+		.attr("transform", function(d) {return "translate(" + xScale(d[0]) + ", " + yScale(d[1]) + ")"})
 		.attr("r", "3");
 
 	svg.append("g")
