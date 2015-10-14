@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.signal as sc
 import sys
+import warnings
 
 def findMax():
 
@@ -53,14 +54,15 @@ def findMax():
 	final_data[:, 0] = inputVoltage
 
 	for i in xrange(0, numberOfPeaks):
-		final_data[i][1] = getPeakValueFromRegression(rawData, peakRange[i,0], peakRange[i,1])
+		a = getPeakValueFromRegression(rawData, peakRange[i,0], peakRange[i,1])
+		if (a != -1):
+			final_data[i][1] = a
 
-	print final_data
-	# outputName = "../maximumData/" + str(inputVoltage) + ".csv"
+	outputName = "../maximumData/" + str(inputVoltage) + ".csv"
 
-	# np.savetxt(outputName, final_array, delimiter=",", fmt="%.2f")
+	np.savetxt(outputName, final_data, delimiter=",", fmt="%.3f")
 
-	# print "finished " + outputName
+	print "finished " + outputName
 
 def main():
 	findMax()
@@ -78,11 +80,21 @@ def getPeakValueFromRegression(rawData, initialIndex, finalIndex):
 	onePeakData = rawData[fullRangeOfIndices]
 
 	# quadratic regression, (degree = 2)
-	polyFit = np.polyfit(onePeakData[:, 1], onePeakData[:, 2], 2, full=False)
+	polyFit = np.array([-1])
+	outputVoltage = -1
 
-	xValueForPeak = (-polyFit[1])/(2*polyFit[0])
+	with warnings.catch_warnings():
+	    warnings.filterwarnings('error')
+	    try:
+	        polyFit = np.polyfit(onePeakData[:, 1], onePeakData[:, 2], 2, full=False)
+	    except np.RankWarning:
+	    	polyFit = np.array([-1])
+	        print "not enough data"
 
-	outputVoltage = polyFit[0]*xValueForPeak*xValueForPeak + polyFit[1]*xValueForPeak + polyFit[2]
+
+	if (polyFit[0] != -1):
+		xValueForPeak = (-polyFit[1])/(2*polyFit[0])
+		outputVoltage = polyFit[0]*xValueForPeak*xValueForPeak + polyFit[1]*xValueForPeak + polyFit[2]
 
 	return outputVoltage
 

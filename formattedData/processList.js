@@ -10,6 +10,6 @@ fs.readFile("list_data.json", "utf-8", function(err, data) {
 	data = JSON.parse(data);
 
 	data.list.forEach(function (d) {
-		console.log("python " + "findMax.py " + d);
+		console.log("python " + "findPeaks.py " + d);
 	});
 })
