@@ -3,7 +3,7 @@ import scipy.signal as sc
 import sys
 
 def findMax():
-
+	
 	name = sys.argv[1]
 
 	inputVoltage = name

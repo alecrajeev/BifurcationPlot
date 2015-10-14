@@ -5,10 +5,13 @@ import sys
 def findMax():
 
 	name = sys.argv[1]
-	inputVoltage = name
+
+	inputVoltage = float(name[0:-4].replace("-", "."))
+	# for recording purposes it was halved, now you need to multiply by two
+	inputVoltage *= 2.0
 
 	# skip first row because it has headers
-	rawData = np.loadtxt(open(inputVoltage),delimiter=",", skiprows=1)
+	rawData = np.loadtxt(open(name),delimiter=",", skiprows=1)
 
 	cutoff = .2 # cutoff of the what's considered near a peak
 
@@ -44,24 +47,15 @@ def findMax():
 
 	# print np.arange(peakRange[1,0], peakRange[1,1])
 
-	print "\n"
+	numberOfPeaks = np.shape(peakRange)[0]
 
-	onePeakData = rawData[np.arange(peakRange[1,0], peakRange[1,1], dtype=np.int64)]
+	final_data = np.zeros([numberOfPeaks, 2])
+	final_data[:, 0] = inputVoltage
 
-	# print onePeakData[:, 2]
+	for i in xrange(0, numberOfPeaks):
+		final_data[i][1] = getPeakValueFromRegression(rawData, peakRange[i,0], peakRange[i,1])
 
-	singleColumn = onePeakData[:, 2]
-
-	maximumArray = sc.argrelmax(singleColumn, axis=0,order=1, mode="clip")
-
-	np.set_printoptions(formatter={'float': '{: 0.2f}'.format})
-
-	p = np.polyfit(onePeakData[:,1], onePeakData[:, 2], 2, full=False)
-
-	x = (-p[1])/(2*p[0])
-
-	print p[0]*x*x + p[1]*x + p[2]
-
+	print final_data
 	# outputName = "../maximumData/" + str(inputVoltage) + ".csv"
 
 	# np.savetxt(outputName, final_array, delimiter=",", fmt="%.2f")
@@ -70,6 +64,28 @@ def findMax():
 
 def main():
 	findMax()
+
+def getPeakValueFromRegression(rawData, initialIndex, finalIndex):
+	"""
+	Performs a quadratic regression to find the output voltage at a peak
+	"""
+
+
+	# range of indices where the peak is located
+	fullRangeOfIndices = np.arange(initialIndex, finalIndex, dtype=np.int64)
+
+	# raw data of where the peak is located
+	onePeakData = rawData[fullRangeOfIndices]
+
+	# quadratic regression, (degree = 2)
+	polyFit = np.polyfit(onePeakData[:, 1], onePeakData[:, 2], 2, full=False)
+
+	xValueForPeak = (-polyFit[1])/(2*polyFit[0])
+
+	outputVoltage = polyFit[0]*xValueForPeak*xValueForPeak + polyFit[1]*xValueForPeak + polyFit[2]
+
+	return outputVoltage
+
 
 if __name__ == '__main__':
   main()
