@@ -28,39 +28,29 @@ var yAxis = d3.svg.axis()
 
 queue()
 	.defer(d3.json, "./maximumData2/full_data.json")
-	// .defer(d3.csv, "./formattedData2/3.7.csv")
 	.await(start);
 
 // d3.csv("./formattedData/9-9.csv", start);
 
-function makeMyChart(err, data) {
+function makeMyChart(err, data0, data1) {
 
 
-	data.forEach(function (d) {
+	data0.forEach(function (d) {
 		d.Time = +d.Time;
 		d.Voltage = +d.Voltage;
 	})
 
+	data1.forEach(function (d) {
+		d.Time = +d.Time;
+		d.Voltage = +d.Voltage;
+	})
 
-	xScale.domain(d3.extent(data, function (d) {return +d.Time;	}));
-	yScale.domain(d3.extent(data, function (d) {return +d.Voltage;	}));
-
-	var dataCircle = svg.selectAll(".dataCircle")
-		.data(data)
+	var divs = d3.selectAll("div")
+		.data(nestedData)
 		.enter()
-		.append("circle")
-		.attr("class", "dataCircle")
-		.attr("transform", function(d) {return "translate(" + xScale(d.Time) + ", " + yScale(d.Voltage) + ")"})
-		.attr("r", "3");
+		.append("div")
+		.attr("class", function(d) {return "site-" + d.key});
 
-	svg.append("g")
-		.attr("class", "x axis")
-		.attr("transform", "translate(0," + height + ")")
-		.call(xAxis)
-
-	svg.append("g")
-		.attr("class", "y axis")
-		.call(yAxis);
 
 }
 
@@ -71,7 +61,17 @@ function start(err, data) {
 
 	console.log(data);
 
+	// data.forEach(function (d) {
+	// 	d.Time = +d.Time;
+	// 	d.Voltage = +d.Voltage;
+	// })
+
 	data = data.list
+
+	data.forEach(function (d) {
+		
+		console.log(d[0])
+	})
 
 	xScale.domain(d3.extent(data, function (d) {return +d[0];	}));
 	yScale.domain(d3.extent(data, function (d) {return +d[1];	}));

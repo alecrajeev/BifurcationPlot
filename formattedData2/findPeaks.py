@@ -12,7 +12,7 @@ def findMax():
 	# skip first row because it has headers
 	rawData = np.loadtxt(open(name),delimiter=",", skiprows=1)
 
-	cutoff = .2 # cutoff of the what's considered near a peak
+	cutoff = -.4 # cutoff of the what's considered near a peak
 
 	# only includes the data near a peak. ie if it's greater than an arbitrary cutoff of .2
 	greaterValues = np.where(rawData[:, 2] > cutoff)
@@ -53,7 +53,7 @@ def findMax():
 
 	for i in xrange(0, numberOfPeaks):
 		a = getPeakValueFromRegression(rawData, peakRange[i,0], peakRange[i,1])
-		if (a != -1):
+		if (a != -1): # checks if the regression performed correctly
 			final_data[i][1] = a
 
 	outputName = "../maximumData2/" + str(inputVoltage) + ".csv"
@@ -81,6 +81,9 @@ def getPeakValueFromRegression(rawData, initialIndex, finalIndex):
 	polyFit = np.array([-1])
 	outputVoltage = -1
 
+	if (np.size(onePeakData[:, 1]) < 1):
+		return outputVoltage
+
 	with warnings.catch_warnings():
 	    warnings.filterwarnings('error')
 	    try:
@@ -93,6 +96,9 @@ def getPeakValueFromRegression(rawData, initialIndex, finalIndex):
 	if (polyFit[0] != -1):
 		xValueForPeak = (-polyFit[1])/(2*polyFit[0])
 		outputVoltage = polyFit[0]*xValueForPeak*xValueForPeak + polyFit[1]*xValueForPeak + polyFit[2]
+
+	if (outputVoltage < -2): # sometimes the formula returns something gigantic that clearly is wrong
+		return -1
 
 	return outputVoltage
 
