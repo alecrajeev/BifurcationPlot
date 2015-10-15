@@ -53,7 +53,7 @@ def findMax():
 
 	for i in xrange(0, numberOfPeaks):
 		a = getPeakValueFromRegression(rawData, peakRange[i,0], peakRange[i,1])
-		if (a != -1): # checks if the regression performed correctly
+		if (a != -10): # checks if the regression performed correctly
 			final_data[i][1] = a
 
 	outputName = "../maximumData2/" + str(inputVoltage) + ".csv"
@@ -78,8 +78,8 @@ def getPeakValueFromRegression(rawData, initialIndex, finalIndex):
 	onePeakData = rawData[fullRangeOfIndices]
 
 	# quadratic regression, (degree = 2)
-	polyFit = np.array([-1])
-	outputVoltage = -1
+	polyFit = np.array([-10])
+	outputVoltage = -10
 
 	if (np.size(onePeakData[:, 1]) < 1):
 		return outputVoltage
@@ -89,16 +89,16 @@ def getPeakValueFromRegression(rawData, initialIndex, finalIndex):
 	    try:
 	        polyFit = np.polyfit(onePeakData[:, 1], onePeakData[:, 2], 2, full=False)
 	    except np.RankWarning:
-	    	polyFit = np.array([-1])
+	    	polyFit = np.array([-10])
 	        print "not enough data"
 
 
-	if (polyFit[0] != -1):
+	if (polyFit[0] != -10):
 		xValueForPeak = (-polyFit[1])/(2*polyFit[0])
 		outputVoltage = polyFit[0]*xValueForPeak*xValueForPeak + polyFit[1]*xValueForPeak + polyFit[2]
 
 	if (outputVoltage < -2): # sometimes the formula returns something gigantic that clearly is wrong
-		return -1
+		return -10
 
 	return outputVoltage
 

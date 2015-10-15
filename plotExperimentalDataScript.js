@@ -27,7 +27,7 @@ var yAxis = d3.svg.axis()
 	.tickPadding(8)
 
 queue()
-	.defer(d3.json, "./maximumData2/full_data.json")
+	.defer(d3.json, "./experimental_data/full_data.json")
 	// .defer(d3.csv, "./formattedData2/3.7.csv")
 	.await(start);
 
@@ -80,7 +80,9 @@ function start(err, data) {
 		.data(data)
 		.enter()
 		.append("circle")
-		.attr("class", "dataCircle")
+		.attr("class", function (d) {
+			return "dataCircle " + d[0].toString()
+		})
 		.attr("transform", function(d) {return "translate(" + xScale(d[0]) + ", " + yScale(d[1]) + ")"})
 		.attr("r", "3");
 
